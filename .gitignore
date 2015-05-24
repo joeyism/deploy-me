@@ -4,4 +4,10 @@ public
 .idea
 client/bower_components
 dist
+server/deployments/*
+server/deployments/**
+server/deployments/**/*
+server/deployments/**/**
 /server/config/local.env.js
+*.swp
+**/*.swp

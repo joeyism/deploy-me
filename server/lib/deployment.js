@@ -1,7 +1,9 @@
 var parse = require('csv').parse;
 var async = require('async');
 var path = require('path');
+var git = require('./git');
 var fs = require('fs');
+var run = require('./run');
 var config;
 
 var readFile = function(location, callback){
@@ -46,13 +48,21 @@ var downloadAppIfIsntThere = function(app, callback){
             }
             return true;
         })){
-            git.download(app[0], path.join(__dirname,'../deployments'),callback);
+            console.log('Cloning');
+            git.clone(app[0], path.join(__dirname,'../deployments'), app[1],app[2],callback);
         }
         else {
-            callback(null, path.join(__dirname,'../deployments',app[1]));
+            console.log('App already there. Moving on');
+            callback(null, path.join(__dirname,'../deployments',app[1]),app[2]);
         }
-
     });
+};
+
+var downloadDependencies = function(file, command, callback){
+    var currentDir = process.cwd();
+    process.chdir(file);
+    run.npmInstall(command, currentDir, callback); 
+
 };
 
 var deployment = function(req, res){
@@ -62,7 +72,8 @@ var deployment = function(req, res){
             function(parsedFile, callback){
                 matchApp(parsedFile, req.body.app, callback);
             },
-            downloadAppIfIsntThere
+            downloadAppIfIsntThere,
+            run.app
         ]),
         function(err, result){            
             console.log('Completed. Sending result...');
