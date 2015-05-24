@@ -1,5 +1,5 @@
 <div class="show-apps">
-    <div class="eachApp" ng-repeat="eachApp in allApps">
+    <div class="eachApp" ng-repeat="eachApp in allApps" ng-click="deployApp(eachApp)">
         <span class="appInfo" ng-repeat="appInfo in eachApp">
             {{appInfo}}
         </span>
