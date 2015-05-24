@@ -79,7 +79,7 @@ var deployment = function(req, res){
             console.log('Completed. Sending result...');
             if(err){
                 console.log(err);
-                res.status(404).send(JSON.stringify(error));
+                res.status(404).send(JSON.stringify(err));
             }
             else {
                 console.log(result);
