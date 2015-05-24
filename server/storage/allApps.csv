@@ -1,0 +1,2 @@
+# link, folder name, how to run it
+git@github.com:joeyism/imgur-lite.git,imgur-lite,node server/app.js
