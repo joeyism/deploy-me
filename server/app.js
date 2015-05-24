@@ -14,8 +14,12 @@ var app = express();
 var server = require('http').createServer(app);
 var modifyable = require('./config.json');
 var get = require('./lib/deployment')(modifyable);
+var bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 app.get('/api/v1/getAllApps', get.allApps);
+app.post('/api/v1/deployApp', get.deployment);
+
 require('./config/express')(app);
 require('./routes')(app);
 

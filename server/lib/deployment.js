@@ -15,31 +15,89 @@ var parseFile = function(file, callback){
     parse(file, {comment: '#'}, callback);
 };
 
-var allApps = function(req, res){
-    console.log('Getting all apps');
-    async.waterfall([
+var getAppsAndParse = [
     function(callback){
         callback(null, config.files.allApps);
     },
     readFile,
     parseFile
-    ],function(err, result){
-        console.log('Completed. Sending result...');
-        if(err){
-            console.log(err);
-            res.status(404).send(JSON.stringify(error));
+];
+
+var matchApp = function(parsedFile, appname, callback){
+    var matchedFile;
+    if (parsedFile.every(function(file, i){
+        if (file[1] === appname){
+            matchedFile = file;
+            return false;        
+        }
+        return true;
+    })){
+        callback("Project not found");
+    } else {
+        callback(null, matchedFile);
+    }
+};
+
+var downloadAppIfIsntThere = function(app, callback){
+    fs.readdir(path.join(__dirname, '../deployments'), function(err, files){
+        if (files.every(function(file){
+            if (file===app[1]){
+                return false;
+            }
+            return true;
+        })){
+            git.download(app[0], path.join(__dirname,'../deployments'),callback);
         }
         else {
-            console.log(result);
-            res.status(200).send(JSON.stringify(result));
+            callback(null, path.join(__dirname,'../deployments',app[1]));
         }
+
     });
 };
 
+var deployment = function(req, res){
+    console.log('Beginning deployment process');
+    async.waterfall(
+        getAppsAndParse.concat([
+            function(parsedFile, callback){
+                matchApp(parsedFile, req.body.app, callback);
+            },
+            downloadAppIfIsntThere
+        ]),
+        function(err, result){            
+            console.log('Completed. Sending result...');
+            if(err){
+                console.log(err);
+                res.status(404).send(JSON.stringify(error));
+            }
+            else {
+                console.log(result);
+                res.status(200).send(JSON.stringify(result));
+            }
+        });
+};
+
+var allApps = function(req, res){
+    console.log('Getting all apps');
+    async.waterfall(
+        getAppsAndParse,
+        function(err, result){
+            console.log('Completed. Sending result...');
+            if(err){
+                console.log(err);
+                res.status(404).send(JSON.stringify(error));
+            }
+            else {
+                console.log(result);
+                res.status(200).send(JSON.stringify(result));
+            }
+        });
+};
 
 module.exports = function(configuration){
     config = configuration;
     return {
-        allApps: allApps
+        allApps: allApps,
+        deployment: deployment
     };
 };

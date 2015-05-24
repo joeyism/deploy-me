@@ -10,7 +10,7 @@ angular.module('deployMeApp').directive('showApps', ['$http',function($http){
             });
 
             scope.deployApp = function(eachApp){
-                $http.post('/api/v1/deployApp',{app: eachApp[1]}).success(function(result){
+                $http.post('/api/v1/deployApp',JSON.stringify({app: eachApp[1]})).success(function(result){
                     console.log(result);
                 })
                 .error(function(result){
