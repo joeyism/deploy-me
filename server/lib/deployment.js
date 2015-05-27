@@ -73,7 +73,7 @@ var deployment = function(req, res){
                 matchApp(parsedFile, req.body.app, callback);
             },
             downloadAppIfIsntThere,
-            run.app
+            run.app,
         ]),
         function(err, result){            
             console.log('Completed. Sending result...');
@@ -100,7 +100,7 @@ var allApps = function(req, res){
             }
             else {
                 console.log(result);
-                res.status(200).send(JSON.stringify(result));
+                res.status(200).send(result);
             }
         });
 };

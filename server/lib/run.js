@@ -16,8 +16,9 @@ var npmInstall = function(cwd, nodeApp, callback){
 
 var app = function(cwd, nodeApp, callback){
     console.log({command: nodeApp, cwd:cwd});
+    process.env.PORT = Math.floor(Math.random()*9000) + 1000;
     var runningApp = require(path.join(cwd, nodeApp));
-    console.log(runningApp);
+    callback(null, process.env.PORT);
 };
 
 module.exports = {

@@ -4,4 +4,7 @@
             {{appInfo}}
         </span>
     </div>
+    <div ng-if="deployedApp">
+        <iframe ng-src={{deployedApp}}></iframe>
+    </div>
 </div>

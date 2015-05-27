@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('deployMeApp').directive('showApps', ['$http',function($http){
+angular.module('deployMeApp').directive('showApps', ['$http','$sce',function($http,$sce){
 
     return {
         templateUrl: 'app/show-apps/show-apps.tpl.html',
@@ -11,7 +11,8 @@ angular.module('deployMeApp').directive('showApps', ['$http',function($http){
 
             scope.deployApp = function(eachApp){
                 $http.post('/api/v1/deployApp',JSON.stringify({app: eachApp[1]})).success(function(result){
-                    console.log(result);
+                    scope.deployedApp = $sce.trustAsResourceUrl("http://localhost:"+result.split("\"").join(""));
+                    console.log(scope.deployedApp);
                 })
                 .error(function(result){
                     console.log(result);
