@@ -1,2 +1,3 @@
 # link, folder name, how to run it
 git@github.com:joeyism/imgur-lite.git,imgur-lite,server/app.js
+git@github.com:joeyism/you-are-a-fish.git,you-are-a-fish,server/app.js

@@ -17,6 +17,7 @@ var npmInstall = function(cwd, nodeApp, callback){
 }; 
 
 var app = function(cwd, nodeApp, callback){
+    var nodeApp = nodeApp || "server/app.js";
     process.env.PORT = Math.floor(Math.random()*9000) + 1000;
     console.log({command: nodeApp, port: process.env.PORT,cwd:cwd});
     var deployedApp = spawn('node',[path.join(cwd,nodeApp)],{env: process.env});

@@ -6,27 +6,41 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
         templateUrl: 'app/show-apps/show-apps.tpl.html',
         link: function(scope){
             var deployedApp = [];
+            var appShowing = {};
 
-            var updateLink = function(result){
-                scope.deployedApp = $sce.trustAsResourceUrl("http://" + result.url + ":" + result.port.split("\"").join(""));
-                deployedApp.push(result.port);
+            var deployedAppIndex = function(){
+                deployedApp.forEach(function(app, i){
+                    if (angular.equals(app, appShowing)){
+                        return i;
+                    }
+                });
+            };
+
+            var displayApp = function(result, isAlreadyDeployed){
+                var url = "http://" + result.url + ":" + result.port.split("\"").join("");
+                scope.deployedApp = $sce.trustAsResourceUrl(url);
+                var thisAppObj = {port: result.port, name:result.name, url:url};
+                appShowing = thisAppObj;
+                if (!isAlreadyDeployed){
+                    deployedApp.push(thisAppObj);
+                }
                 $timeout(function(){
                     scope.$apply();
                 },1);
-                console.log(scope.deployedApp);
+                console.log(deployedApp);
             };
 
             $http.get('/api/v1/getAllApps').success(function(results){
-                console.log(results);
-                scope.allApps = results.allApps;
-                if (results.port){
-                    updateLink(results);
+                scope.allApps = results.allApps; 
+                if (results.allDeployedApps){
+                    deployedApp = results.allDeployedApps;
+                    displayApp(deployedApp[0], true);
                 }
             });
 
             scope.deployApp = function(eachApp){
                 $http.post('/api/v1/deployApp',JSON.stringify({app: eachApp[1]})).success(function(result){
-                    updateLink(result);
+                    displayApp(result);
                 })
                 .error(function(result){
                     console.log(result);
@@ -34,9 +48,9 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
             };
 
             scope.kill = function(){
-                $http.post('/api/v1/killApp',{app: deployedApp[0]}).success(function(result){
+                $http.post('/api/v1/killApp', appShowing).success(function(result){
                     scope.deployedApp = null;
-                    delete deployedApp[0];
+                    delete deployedApp[deployedAppIndex()];
                 });
             };
         }

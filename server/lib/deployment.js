@@ -99,7 +99,7 @@ var deployment = function(req, res){
             downloadAppIfIsntThere,
             run.app,
             function(port, deployedApp, callback){
-                allDeployedApps.push({port: port, app: deployedApp});
+                allDeployedApps.push({port: port, app: deployedApp, name: req.body.app});
                 callback(null, port);
             }
         ]),
@@ -110,7 +110,7 @@ var deployment = function(req, res){
                 res.status(404).send(JSON.stringify(err));
             }
             else {
-                res.status(200).send(JSON.stringify({port:result, url: currentIp}));
+                res.status(200).send(JSON.stringify({port:result, url: currentIp, name: req.body.app}));
             }
         });
 };
@@ -128,8 +128,10 @@ var allApps = function(req, res){
             else {
                 var resultObj = {allApps: result};
                 if (allDeployedApps.length > 0){
-                    resultObj.port= allDeployedApps[0].port;
-                    resultObj.url = currentIp;
+                    resultObj.allDeployedApps=[]; 
+                    allDeployedApps.forEach(function(app){
+                        resultObj.allDeployedApps.push({port: app.port, url:currentIp, name:app.name}); 
+                    });
                 }
                 res.status(200).send(resultObj);
             }
@@ -137,7 +139,7 @@ var allApps = function(req, res){
 };
 
 var appTermination = function(req, res){
-    var deployedPort = req.body.app.toString().split("\"").join("");
+    var deployedPort = req.body.port.toString().split("\"").join("");
     allDeployedApps.forEach(function(deployed,i){
         console.log('killing');
         console.log({deployedPort:deployedPort, port: deployed.port});
