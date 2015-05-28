@@ -119,7 +119,7 @@ var appTermination = function(req, res){
         console.log({deployedPort:deployedPort, port: deployed.port});
         if(deployedPort === deployed.port){
           deployed.app.kill();
-          allDeployedApps.split(0,1);
+          allDeployedApps.splice(0,1);
           res.status(200).send();
         }
     });

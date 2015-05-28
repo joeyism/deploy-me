@@ -1,11 +1,21 @@
 <div class="show-apps">
-    <div class="eachApp" ng-repeat="eachApp in allApps" ng-click="deployApp(eachApp)">
-        <span class="appInfo" ng-repeat="appInfo in eachApp">
-            {{appInfo}}
-        </span>
-    </div>
-    <div ng-if="deployedApp">
-        <button type="button" ng-click="kill()">Kill Site</button>
-        <iframe ng-src={{deployedApp}}></iframe>
+    <div class="row">
+        <div class="col-xs-4 leftColumn">
+            <div class="eachApp" ng-repeat="eachApp in allApps" ng-click="deployApp(eachApp)">
+                <span class="appInfo" ng-repeat="appInfo in eachApp">
+                    {{appInfo}}
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-8 rightColumn">
+            <div ng-if="deployedApp" class="fullWindow">
+                <div>
+                    <button type="button" ng-click="kill()">Kill Site</button>
+                </div>
+                <div class="fullWindow">
+                    <iframe class="fullWindow" ng-src={{deployedApp}}></iframe>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
