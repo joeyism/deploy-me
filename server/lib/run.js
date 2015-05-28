@@ -1,5 +1,7 @@
 var npm = require('npm');
 var path = require('path');
+var spawn = require('child_process').spawn;
+
 var npmInstall = function(cwd, nodeApp, callback){
     console.log('Installing NPM modules');
     console.log(process.cwd());
@@ -15,10 +17,10 @@ var npmInstall = function(cwd, nodeApp, callback){
 }; 
 
 var app = function(cwd, nodeApp, callback){
-    console.log({command: nodeApp, cwd:cwd});
     process.env.PORT = Math.floor(Math.random()*9000) + 1000;
-    var runningApp = require(path.join(cwd, nodeApp));
-    callback(null, process.env.PORT);
+    console.log({command: nodeApp, port: process.env.PORT,cwd:cwd});
+    var deployedApp = spawn('node',[path.join(cwd,nodeApp)],{env: process.env});
+    callback(null, process.env.PORT, deployedApp);
 };
 
 module.exports = {

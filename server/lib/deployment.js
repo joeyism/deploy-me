@@ -4,6 +4,7 @@ var path = require('path');
 var git = require('./git');
 var fs = require('fs');
 var run = require('./run');
+var allDeployedApps = [];
 var config;
 
 var readFile = function(location, callback){
@@ -74,6 +75,10 @@ var deployment = function(req, res){
             },
             downloadAppIfIsntThere,
             run.app,
+            function(port, deployedApp, callback){
+                allDeployedApps.push({port: port, app: deployedApp});
+                callback(null, port);
+            }
         ]),
         function(err, result){            
             console.log('Completed. Sending result...');
@@ -82,7 +87,6 @@ var deployment = function(req, res){
                 res.status(404).send(JSON.stringify(err));
             }
             else {
-                console.log(result);
                 res.status(200).send(JSON.stringify(result));
             }
         });
@@ -99,16 +103,33 @@ var allApps = function(req, res){
                 res.status(404).send(JSON.stringify(error));
             }
             else {
-                console.log(result);
-                res.status(200).send(result);
+                var resultObj = {allApps: result};
+                if (allDeployedApps.length > 0){
+                    resultObj.deployed = allDeployedApps[0].port;
+                }
+                res.status(200).send(resultObj);
             }
         });
+};
+
+var appTermination = function(req, res){
+    var deployedPort = req.body.app.toString().split("\"").join("");
+    allDeployedApps.forEach(function(deployed,i){
+        console.log('killing');
+        console.log({deployedPort:deployedPort, port: deployed.port});
+        if(deployedPort === deployed.port){
+          deployed.app.kill();
+          allDeployedApps.split(0,1);
+          res.status(200).send();
+        }
+    });
 };
 
 module.exports = function(configuration){
     config = configuration;
     return {
         allApps: allApps,
-        deployment: deployment
+        deployment: deployment,
+        appTermination: appTermination
     };
 };

@@ -2,6 +2,8 @@
  * Main application file
  */
 
+
+
 'use strict';
 
 // Set default node environment to development
@@ -19,6 +21,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.get('/api/v1/getAllApps', get.allApps);
 app.post('/api/v1/deployApp', get.deployment);
+app.post('/api/v1/killApp', get.appTermination);
 
 require('./config/express')(app);
 require('./routes')(app);

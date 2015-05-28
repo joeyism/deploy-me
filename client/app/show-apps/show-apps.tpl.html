@@ -5,6 +5,7 @@
         </span>
     </div>
     <div ng-if="deployedApp">
+        <button type="button" ng-click="kill()">Kill Site</button>
         <iframe ng-src={{deployedApp}}></iframe>
     </div>
 </div>
