@@ -8,8 +8,8 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
             var deployedApp = [];
 
             var updateLink = function(result){
-                scope.deployedApp = $sce.trustAsResourceUrl("http://localhost:"+result.split("\"").join(""));
-                deployedApp.push(result);
+                scope.deployedApp = $sce.trustAsResourceUrl("http://" + result.url + ":" + result.port.split("\"").join(""));
+                deployedApp.push(result.port);
                 $timeout(function(){
                     scope.$apply();
                 },1);
@@ -19,8 +19,8 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
             $http.get('/api/v1/getAllApps').success(function(results){
                 console.log(results);
                 scope.allApps = results.allApps;
-                if (results.deployed){
-                    updateLink(results.deployed);
+                if (results.port){
+                    updateLink(results);
                 }
             });
 

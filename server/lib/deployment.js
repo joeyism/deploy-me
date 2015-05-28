@@ -5,8 +5,31 @@ var git = require('./git');
 var fs = require('fs');
 var run = require('./run');
 var allDeployedApps = [];
+var os = require('os');
+var ifaces = os.networkInterfaces();
 var config;
+var currentIp;
 
+Object.keys(ifaces).forEach(function (ifname) {
+    var alias = 0;
+
+    ifaces[ifname].forEach(function (iface) {
+        if ('IPv4' !== iface.family || iface.internal !== false) {
+            return;
+        }
+
+        if (alias >= 1) {
+            // this single interface has multiple ipv4 addresses
+            console.log(ifname + ':' + alias, iface.address);
+            currentIp= iface.address;
+        } else {
+            // this interface has only one ipv4 adress
+            console.log(ifname, iface.address);
+            currentIp= iface.address;
+        }
+        
+    });
+});
 var readFile = function(location, callback){
     var dir = path.join(__dirname,'..',location);
     console.log('Reading file at ' + dir);
@@ -87,7 +110,7 @@ var deployment = function(req, res){
                 res.status(404).send(JSON.stringify(err));
             }
             else {
-                res.status(200).send(JSON.stringify(result));
+                res.status(200).send(JSON.stringify({port:result, url: currentIp}));
             }
         });
 };
@@ -105,7 +128,8 @@ var allApps = function(req, res){
             else {
                 var resultObj = {allApps: result};
                 if (allDeployedApps.length > 0){
-                    resultObj.deployed = allDeployedApps[0].port;
+                    resultObj.port= allDeployedApps[0].port;
+                    resultObj.url = currentIp;
                 }
                 res.status(200).send(resultObj);
             }
