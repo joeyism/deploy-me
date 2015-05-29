@@ -8,6 +8,8 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
             var deployedApp = [];
             var appShowing = {};
 
+
+
             var deployedAppIndex = function(){
                 deployedApp.forEach(function(app, i){
                     if (angular.equals(app, appShowing)){
@@ -17,6 +19,7 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
             };
 
             var displayApp = function(result, isAlreadyDeployed){
+
                 var url = "http://" + result.url + ":" + result.port.split("\"").join("");
                 scope.deployedApp = $sce.trustAsResourceUrl(url);
                 var thisAppObj = {port: result.port, name:result.name, url:url};
@@ -39,12 +42,22 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
             });
 
             scope.deployApp = function(eachApp){
-                $http.post('/api/v1/deployApp',JSON.stringify({app: eachApp[1]})).success(function(result){
-                    displayApp(result);
-                })
-                .error(function(result){
-                    console.log(result);
-                });
+                if (deployedApp.every(function(app){
+                    var notDeployed = (eachApp[1] !== app.name);
+                    if (!notDeployed){
+                        console.log('already deployed '+app.url);
+                        scope.deployedApp = $sce.trustAsResourceUrl(app.url);
+                        return false;
+                    };
+                    return notDeployed;
+                })){
+                    $http.post('/api/v1/deployApp',JSON.stringify({app: eachApp[1]})).success(function(result){
+                        displayApp(result);
+                    })
+                    .error(function(result){
+                        console.log(result);
+                    });
+                }
             };
 
             scope.kill = function(){
