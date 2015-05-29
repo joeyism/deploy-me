@@ -8,8 +8,6 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
             var deployedApp = [];
             var appShowing = {};
 
-
-
             var deployedAppIndex = function(){
                 deployedApp.forEach(function(app, i){
                     if (angular.equals(app, appShowing)){
@@ -22,7 +20,7 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
 
                 var url = "http://" + result.url + ":" + result.port.split("\"").join("");
                 scope.deployedApp = $sce.trustAsResourceUrl(url);
-                var thisAppObj = {port: result.port, name:result.name, url:url};
+                var thisAppObj = {port: result.port, name:result.name, url:result.url};
                 appShowing = thisAppObj;
                 if (!isAlreadyDeployed){
                     deployedApp.push(thisAppObj);
@@ -45,8 +43,9 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
                 if (deployedApp.every(function(app){
                     var notDeployed = (eachApp[1] !== app.name);
                     if (!notDeployed){
-                        console.log('already deployed '+app.url);
-                        scope.deployedApp = $sce.trustAsResourceUrl(app.url);
+                        console.log('already deployed '+app.url+":"+app.port);
+                var url = "http://" + app.url + ":" + app.port.split("\"").join("");
+                        scope.deployedApp = $sce.trustAsResourceUrl(url);
                         appShowing = app;
                         return false;
                     };
