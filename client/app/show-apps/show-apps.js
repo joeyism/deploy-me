@@ -47,6 +47,7 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
                     if (!notDeployed){
                         console.log('already deployed '+app.url);
                         scope.deployedApp = $sce.trustAsResourceUrl(app.url);
+                        appShowing = app;
                         return false;
                     };
                     return notDeployed;
