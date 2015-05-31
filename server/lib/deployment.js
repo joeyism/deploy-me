@@ -151,11 +151,48 @@ var appTermination = function(req, res){
     });
 };
 
+var cdIntoDeployment = function(file, callback){
+    var cwd = process.cwd();
+    var dir = path.join(__dirname,'..','deployments',file[1]);
+    cdInto(dir,function(){
+        callback(null, cwd);
+    });
+};
+
+var cdInto = function(location, callback){
+    console.log('cd into ' + location);
+    process.chdir(location);
+    callback(null);
+};
+
+var update = function(req, res){
+    console.log('updating app');
+    console.log(req.body.name);
+    async.waterfall(
+        getAppsAndParse.concat([
+            function(parsedFile, callback){
+                matchApp(parsedFile, req.body.name, callback);
+            },
+            cdIntoDeployment,
+            run.update,
+            cdInto
+        ]),
+        function(err, result){
+            console.log('update complete');
+            console.log({err: err, result:result});
+            if (err)
+                res.status(404).send(err);
+            else
+                res.status(200);
+        });
+};
+
 module.exports = function(configuration){
     config = configuration;
     return {
         allApps: allApps,
         deployment: deployment,
+        update: update,
         appTermination: appTermination
     };
 };

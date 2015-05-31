@@ -66,6 +66,12 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
                     delete deployedApp[deployedAppIndex()];
                 });
             };
+
+            scope.update = function(){
+                $http.post('/api/v1/updateApp', appShowing).success(function(result){
+                    console.log(result);
+                });
+            };
         }
     };
 }]);
