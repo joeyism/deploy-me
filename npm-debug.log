@@ -1,0 +1,102 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'imagemin-jpegtran' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.38
+4 verbose node symlink /usr/bin/node
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'imagemin-jpegtran', null ]
+7 verbose cache add name=undefined spec="imagemin-jpegtran" args=["imagemin-jpegtran",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'imagemin-jpegtran',
+8 verbose parsed url   path: 'imagemin-jpegtran',
+8 verbose parsed url   href: 'imagemin-jpegtran' }
+9 silly lockFile 4fe9f629-imagemin-jpegtran imagemin-jpegtran
+10 verbose lock imagemin-jpegtran /home/dante/.npm/4fe9f629-imagemin-jpegtran.lock
+11 silly lockFile 4fe9f629-imagemin-jpegtran imagemin-jpegtran
+12 silly lockFile 4fe9f629-imagemin-jpegtran imagemin-jpegtran
+13 verbose addNamed [ 'imagemin-jpegtran', '' ]
+14 verbose addNamed [ null, '*' ]
+15 silly lockFile ccc4a629-imagemin-jpegtran imagemin-jpegtran@
+16 verbose lock imagemin-jpegtran@ /home/dante/.npm/ccc4a629-imagemin-jpegtran.lock
+17 silly addNameRange { name: 'imagemin-jpegtran', range: '*', hasData: false }
+18 verbose request where is /imagemin-jpegtran
+19 verbose request registry https://registry.npmjs.org/
+20 verbose request id 1c9a86898d5db9c4
+21 verbose url raw /imagemin-jpegtran
+22 verbose url resolving [ 'https://registry.npmjs.org/', './imagemin-jpegtran' ]
+23 verbose url resolved https://registry.npmjs.org/imagemin-jpegtran
+24 verbose request where is https://registry.npmjs.org/imagemin-jpegtran
+25 info trying registry request attempt 1 at 16:07:43
+26 verbose etag "8K43PLBORT5U9UR606BS3YMQH"
+27 http GET https://registry.npmjs.org/imagemin-jpegtran
+28 http 304 https://registry.npmjs.org/imagemin-jpegtran
+29 silly registry.get cb [ 304,
+29 silly registry.get   { date: 'Sun, 31 May 2015 20:07:43 GMT',
+29 silly registry.get     via: '1.1 varnish',
+29 silly registry.get     'cache-control': 'max-age=60',
+29 silly registry.get     etag: '"8K43PLBORT5U9UR606BS3YMQH"',
+29 silly registry.get     age: '0',
+29 silly registry.get     connection: 'keep-alive',
+29 silly registry.get     'x-served-by': 'cache-ord1728-ORD',
+29 silly registry.get     'x-cache': 'HIT',
+29 silly registry.get     'x-cache-hits': '1',
+29 silly registry.get     'x-timer': 'S1433102863.855404,VS0,VE261',
+29 silly registry.get     vary: 'Accept' } ]
+30 verbose etag https://registry.npmjs.org/imagemin-jpegtran from cache
+31 silly addNameRange number 2 { name: 'imagemin-jpegtran', range: '*', hasData: true }
+32 silly addNameRange versions [ 'imagemin-jpegtran',
+32 silly addNameRange   [ '0.1.0',
+32 silly addNameRange     '1.0.0',
+32 silly addNameRange     '2.0.0',
+32 silly addNameRange     '3.0.0',
+32 silly addNameRange     '3.1.0',
+32 silly addNameRange     '3.1.1',
+32 silly addNameRange     '4.0.0',
+32 silly addNameRange     '4.1.0' ] ]
+33 verbose addNamed [ 'imagemin-jpegtran', '4.1.0' ]
+34 verbose addNamed [ '4.1.0', '4.1.0' ]
+35 silly lockFile 248b1ac4-imagemin-jpegtran-4-1-0 imagemin-jpegtran@4.1.0
+36 verbose lock imagemin-jpegtran@4.1.0 /home/dante/.npm/248b1ac4-imagemin-jpegtran-4-1-0.lock
+37 silly lockFile 1de03f74-tran-imagemin-jpegtran-4-1-0-tgz https://registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz
+38 verbose lock https://registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz /home/dante/.npm/1de03f74-tran-imagemin-jpegtran-4-1-0-tgz.lock
+39 verbose addRemoteTarball [ 'https://registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz',
+39 verbose addRemoteTarball   '3f4cf174c309ef34f81a401799f391dec902280f' ]
+40 info retry fetch attempt 1 at 16:07:44
+41 verbose fetch to= /tmp/npm-7685-E42Ew_qC/registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz
+42 http GET https://registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz
+43 http 200 https://registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz
+44 silly lockFile 1de03f74-tran-imagemin-jpegtran-4-1-0-tgz https://registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz
+45 silly lockFile 1de03f74-tran-imagemin-jpegtran-4-1-0-tgz https://registry.npmjs.org/imagemin-jpegtran/-/imagemin-jpegtran-4.1.0.tgz
+46 silly lockFile 248b1ac4-imagemin-jpegtran-4-1-0 imagemin-jpegtran@4.1.0
+47 silly lockFile 248b1ac4-imagemin-jpegtran-4-1-0 imagemin-jpegtran@4.1.0
+48 silly lockFile ccc4a629-imagemin-jpegtran imagemin-jpegtran@
+49 silly lockFile ccc4a629-imagemin-jpegtran imagemin-jpegtran@
+50 error Error: EACCES, mkdir '/home/dante/.npm/imagemin-jpegtran/4.1.0'
+50 error  { [Error: EACCES, mkdir '/home/dante/.npm/imagemin-jpegtran/4.1.0']
+50 error   errno: 3,
+50 error   code: 'EACCES',
+50 error   path: '/home/dante/.npm/imagemin-jpegtran/4.1.0',
+50 error   parent: 'deploy-me' }
+51 error Please try running this command again as root/Administrator.
+52 error System Linux 3.13.0-37-generic
+53 error command "/usr/bin/node" "/usr/bin/npm" "install" "--save" "imagemin-jpegtran"
+54 error cwd /home/dante/Documents/Programming/angular/test/deploy-me
+55 error node -v v0.10.38
+56 error npm -v 1.4.28
+57 error path /home/dante/.npm/imagemin-jpegtran/4.1.0
+58 error code EACCES
+59 error errno 3
+60 error stack Error: EACCES, mkdir '/home/dante/.npm/imagemin-jpegtran/4.1.0'
+61 verbose exit [ 3, true ]
