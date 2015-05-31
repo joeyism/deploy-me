@@ -1,4 +1,4 @@
-var parse = require('csv').parse;
+var parse = require('csv-parse');
 var async = require('async');
 var path = require('path');
 var git = require('./git');
@@ -25,7 +25,7 @@ Object.keys(ifaces).forEach(function (ifname) {
         } else {
             // this interface has only one ipv4 adress
             console.log(ifname, iface.address);
-            currentIp= iface.address;
+            currentIp = iface.address;
         }
         
     });
@@ -33,12 +33,19 @@ Object.keys(ifaces).forEach(function (ifname) {
 var readFile = function(location, callback){
     var dir = path.join(__dirname,'..',location);
     console.log('Reading file at ' + dir);
-    fs.readFile(dir, null, callback);
+    fs.readFile(dir, function(err, data){
+        data = data.toString();
+        console.log({err:err, data: data});
+        callback(err, data);
+    });
 };
 
 var parseFile = function(file, callback){
-    console.log('Parsing file');
-    parse(file, {comment: '#'}, callback);
+    console.log('Parsing file '+file);
+    parse(file, {comment: '#'}, function(err, data){
+        console.log({err:err, data:data, file: file});
+        callback(err, data);
+    });
 };
 
 var getAppsAndParse = [
@@ -123,7 +130,7 @@ var allApps = function(req, res){
             console.log('Completed. Sending result...');
             if(err){
                 console.log(err);
-                res.status(404).send(JSON.stringify(error));
+                res.status(404).send(JSON.stringify(err));
             }
             else {
                 var resultObj = {allApps: result};
