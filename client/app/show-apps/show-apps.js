@@ -72,6 +72,14 @@ angular.module('deployMeApp').directive('showApps', ['$http','$sce','$timeout',f
                     console.log(result);
                 });
             };
+
+            scope.install = function(app){
+                $http.post('/api/v1/installApp', {name: app[1]}).success(function(result){
+                    console.log(result);
+                }, function(failure){
+                    console.log(failure);
+                });
+            };
         }
     };
 }]);

@@ -27,7 +27,7 @@ Object.keys(ifaces).forEach(function (ifname) {
             console.log(ifname, iface.address);
             currentIp = iface.address;
         }
-        
+
     });
 });
 var readFile = function(location, callback){
@@ -151,9 +151,9 @@ var appTermination = function(req, res){
         console.log('killing');
         console.log({deployedPort:deployedPort, port: deployed.port});
         if(deployedPort === deployed.port){
-          deployed.app.kill();
-          allDeployedApps.splice(0,1);
-          res.status(200).send();
+            deployed.app.kill();
+            allDeployedApps.splice(0,1);
+            res.status(200).send();
         }
     });
 };
@@ -194,12 +194,39 @@ var update = function(req, res){
         });
 };
 
+var install = function(req, res){
+    console.log('installing app');
+    async.waterfall(
+        getAppsAndParse.concat([
+            function(parsedFile, callback){
+                matchApp(parsedFile, req.body.name, callback);
+            },
+            function(file, callback){
+                var cwd = process.cwd();
+                cdInto(path.join(__dirname, '..','deployments'), function(){
+                    callback(null, file, cwd);
+                });
+            },
+            run.install,
+            cdInto
+        ]),
+        function(err, result){
+            console.log('installation complete\n');
+            console.log({err: err, result:result});
+            if (err)
+                res.status(404).send(err);
+            else
+                res.status(200);
+        });
+};
+
 module.exports = function(configuration){
     config = configuration;
     return {
         allApps: allApps,
         deployment: deployment,
         update: update,
+        install: install,
         appTermination: appTermination
     };
 };

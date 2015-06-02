@@ -58,8 +58,20 @@ var update = function(cwd, callback){
     });
 };
 
+var install = function(file, cwd, callback){
+    runCmd(['git clone '+file[0]+' '+file[1],'cd '+file[1], 'npm install --force','bower install','grunt'], function(err, output){
+        console.log(err, output);
+        if (err)
+            callback(err);
+        else
+            callback(null, cwd);
+    });
+    
+};
+
 module.exports = {
     npmInstall: npmInstall,
     update: update,
+    install: install,
     app: app
 };

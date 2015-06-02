@@ -1,8 +1,13 @@
 <div class="show-apps">
     <div class="row">
         <div class="col-xs-4 leftColumn">
-            <div class="eachApp" ng-repeat="eachApp in allApps" ng-click="deployApp(eachApp)">
-                {{eachApp[1]}}
+            <div class="eachApp" ng-repeat="eachApp in allApps">
+                <div ng-click="deployApp(eachApp)">
+                    {{eachApp[1]}}
+                </div>
+                <span>
+                    <button type="button" ng-click="install(eachApp)">Install</button>
+                </span>
             </div>
         </div>
         <div class="col-xs-8 rightColumn">
